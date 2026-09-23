@@ -1,9 +1,12 @@
 /**
- * Paste this into Google Apps Script (Extensions → Apps Script) for your RSVP sheet.
- * Then Deploy → New deployment → Web app:
- *   Execute as: Me
- *   Who has access: Anyone
- * Copy the Web App URL into Vercel env: GOOGLE_SCRIPT_URL
+ * 1. In your RSVP Google Sheet: Extensions → Apps Script
+ * 2. Paste this full file, Save
+ * 3. Click Run on ensureSheet_ once → Approve permissions
+ * 4. Deploy → New deployment → Web app
+ *      Execute as: Me
+ *      Who has access: Anyone
+ * 5. Copy the /exec URL into Vercel env GOOGLE_SCRIPT_URL
+ * 6. After any code change: Deploy → Manage deployments → Edit → New version
  */
 
 var SPREADSHEET_ID = "1xb1Cu1cevuz_DhfHn545KIjaRUCtpB8Fiss8piUjOIw";
@@ -20,9 +23,26 @@ function ensureSheet_() {
   return sheet;
 }
 
+function parseBody_(e) {
+  if (!e) return {};
+  // Prefer JSON body (text/plain or application/json)
+  if (e.postData && e.postData.contents) {
+    try {
+      return JSON.parse(e.postData.contents);
+    } catch (err) {
+      // fall through
+    }
+  }
+  // Fallback: form fields / query params
+  if (e.parameter) {
+    return e.parameter;
+  }
+  return {};
+}
+
 function doPost(e) {
   try {
-    var body = JSON.parse((e && e.postData && e.postData.contents) || "{}");
+    var body = parseBody_(e);
     var action = String(body.action || "create");
 
     if (action === "list") {
@@ -34,7 +54,7 @@ function doPost(e) {
     var attend = body.attend === "no" ? "no" : "yes";
 
     if (!name || !message) {
-      return json_({ error: "Name and message are required." }, 400);
+      return json_({ error: "Name and message are required." });
     }
 
     var sheet = ensureSheet_();
@@ -47,12 +67,20 @@ function doPost(e) {
       entry: { id: id, name: name, attend: attend, message: message, at: at },
     });
   } catch (err) {
-    return json_({ error: String(err) }, 500);
+    return json_({ error: String(err) });
   }
 }
 
-function doGet() {
-  return json_({ entries: listEntries_() });
+function doGet(e) {
+  try {
+    var action = (e && e.parameter && e.parameter.action) || "list";
+    if (action === "ping") {
+      return json_({ ok: true, message: "RSVP script is live" });
+    }
+    return json_({ entries: listEntries_() });
+  } catch (err) {
+    return json_({ error: String(err) });
+  }
 }
 
 function listEntries_() {

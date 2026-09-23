@@ -8,25 +8,74 @@ function scriptConfigured() {
   return Boolean(process.env.GOOGLE_SCRIPT_URL);
 }
 
-async function callScript(payload) {
-  const url = process.env.GOOGLE_SCRIPT_URL;
-  const response = await fetch(url, {
+function scriptBaseUrl() {
+  return String(process.env.GOOGLE_SCRIPT_URL || "").replace(/\/$/, "");
+}
+
+function looksLikeHtml(text) {
+  var t = String(text || "").trim().slice(0, 80).toLowerCase();
+  return t.startsWith("<!doctype") || t.startsWith("<html") || t.indexOf("<body") !== -1;
+}
+
+async function callScriptPost(payload) {
+  var url = scriptBaseUrl();
+  // text/plain avoids Apps Script CORS/preflight quirks
+  var response = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(payload),
     redirect: "follow",
   });
 
-  const text = await response.text();
-  let data;
+  var text = await response.text();
+  if (looksLikeHtml(text)) {
+    throw new Error(
+      "Google returned an HTML page instead of JSON. In Apps Script: Run ensureSheet_ once to authorize, then Deploy → Manage deployments → Edit → set Who has access = Anyone → New version."
+    );
+  }
+
+  var data;
   try {
     data = JSON.parse(text);
   } catch (e) {
-    throw new Error("Google Script returned invalid JSON. Redeploy the web app and check the URL.");
+    throw new Error(
+      "Google Script returned invalid JSON. First 120 chars: " +
+        String(text || "").replace(/\s+/g, " ").slice(0, 120)
+    );
   }
 
-  if (!response.ok || data.error) {
-    throw new Error(data.error || "Google Script request failed");
+  if (data.error) {
+    throw new Error(data.error);
+  }
+  return data;
+}
+
+async function callScriptList() {
+  var url = scriptBaseUrl() + "?action=list";
+  var response = await fetch(url, {
+    method: "GET",
+    redirect: "follow",
+  });
+
+  var text = await response.text();
+  if (looksLikeHtml(text)) {
+    throw new Error(
+      "Google returned an HTML page instead of JSON. Redeploy the web app with access = Anyone, and authorize the script by running ensureSheet_ once."
+    );
+  }
+
+  var data;
+  try {
+    data = JSON.parse(text);
+  } catch (e) {
+    throw new Error(
+      "Google Script returned invalid JSON. First 120 chars: " +
+        String(text || "").replace(/\s+/g, " ").slice(0, 120)
+    );
+  }
+
+  if (data.error) {
+    throw new Error(data.error);
   }
   return data;
 }
@@ -37,7 +86,7 @@ function readBody(req) {
       resolve(req.body);
       return;
     }
-    let raw = "";
+    var raw = "";
     req.on("data", function (chunk) {
       raw += chunk;
     });
@@ -70,7 +119,7 @@ module.exports = async function handler(req, res) {
     res.end(
       JSON.stringify({
         error:
-          "RSVP storage is not configured. Add GOOGLE_SCRIPT_URL and DASHBOARD_PASSWORD in Vercel env vars (free Google Sheet).",
+          "RSVP storage is not configured. Add GOOGLE_SCRIPT_URL and DASHBOARD_PASSWORD in Vercel env vars.",
       })
     );
     return;
@@ -78,10 +127,10 @@ module.exports = async function handler(req, res) {
 
   try {
     if (req.method === "POST") {
-      const body = await readBody(req);
-      const name = String(body.name || "").trim().slice(0, 80);
-      const message = String(body.message || "").trim().slice(0, 500);
-      const attend = body.attend === "no" ? "no" : "yes";
+      var body = await readBody(req);
+      var name = String(body.name || "").trim().slice(0, 80);
+      var message = String(body.message || "").trim().slice(0, 500);
+      var attend = body.attend === "no" ? "no" : "yes";
 
       if (!name || !message) {
         res.statusCode = 400;
@@ -90,7 +139,7 @@ module.exports = async function handler(req, res) {
         return;
       }
 
-      const data = await callScript({
+      var created = await callScriptPost({
         action: "create",
         name: name,
         message: message,
@@ -99,13 +148,13 @@ module.exports = async function handler(req, res) {
 
       res.statusCode = 201;
       res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ ok: true, entry: data.entry }));
+      res.end(JSON.stringify({ ok: true, entry: created.entry }));
       return;
     }
 
     if (req.method === "GET") {
-      const password = req.headers["x-dashboard-password"] || "";
-      const expected = process.env.DASHBOARD_PASSWORD || "";
+      var password = req.headers["x-dashboard-password"] || "";
+      var expected = process.env.DASHBOARD_PASSWORD || "";
       if (!expected || password !== expected) {
         res.statusCode = 401;
         res.setHeader("Content-Type", "application/json");
@@ -113,11 +162,11 @@ module.exports = async function handler(req, res) {
         return;
       }
 
-      const data = await callScript({ action: "list" });
+      var listed = await callScriptList();
       res.statusCode = 200;
       res.setHeader("Content-Type", "application/json");
       res.setHeader("Cache-Control", "no-store");
-      res.end(JSON.stringify({ entries: data.entries || [] }));
+      res.end(JSON.stringify({ entries: listed.entries || [] }));
       return;
     }
 
