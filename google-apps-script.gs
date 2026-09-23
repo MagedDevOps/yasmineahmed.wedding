@@ -6,10 +6,11 @@
  * Copy the Web App URL into Vercel env: GOOGLE_SCRIPT_URL
  */
 
+var SPREADSHEET_ID = "1xb1Cu1cevuz_DhfHn545KIjaRUCtpB8Fiss8piUjOIw";
 var SHEET_NAME = "RSVPs";
 
 function ensureSheet_() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   var sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
