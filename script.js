@@ -1,7 +1,7 @@
-﻿/* Customize couple details here */
+/* Customize couple details here */
 const CONFIG = {
   weddingDate: "2026-10-08T21:00:00+03:00",
-  couple: "Yasmine & Ahmed",
+  couple: "Ahmed & Yasmine",
 };
 
 /* —— Clean routes (/rsvp, /venue, …) —— */
