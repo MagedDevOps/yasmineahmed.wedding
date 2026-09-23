@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    { "source": "/rsvp", "destination": "/index.html" },
+    { "source": "/rspv", "destination": "/index.html" },
+    { "source": "/story", "destination": "/index.html" },
+    { "source": "/gallery", "destination": "/index.html" },
+    { "source": "/when", "destination": "/index.html" },
+    { "source": "/countdown", "destination": "/index.html" },
+    { "source": "/journey", "destination": "/index.html" },
+    { "source": "/venue", "destination": "/index.html" },
+    { "source": "/notes", "destination": "/index.html" }
+  ]
+}

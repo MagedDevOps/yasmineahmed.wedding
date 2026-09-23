@@ -1,8 +1,45 @@
-/* Customize couple details here */
+﻿/* Customize couple details here */
 const CONFIG = {
-  weddingDate: "2026-10-05T21:00:00+03:00",
+  weddingDate: "2026-10-08T21:00:00+03:00",
   couple: "Yasmine & Ahmed",
 };
+
+/* —— Clean routes (/rsvp, /venue, …) —— */
+(function () {
+  const aliases = {
+    rspv: "rsvp",
+    when: "countdown",
+  };
+
+  function sectionFromPath() {
+    const raw = (location.pathname || "/")
+      .replace(/\/+$/, "")
+      .replace(/^\//, "")
+      .toLowerCase();
+    if (!raw || raw === "index.html") return null;
+    const id = aliases[raw] || raw;
+    return document.getElementById(id) ? id : null;
+  }
+
+  const sectionId = sectionFromPath();
+  if (sectionId) {
+    window.__pendingSection = sectionId;
+  }
+
+  if (location.hash === "#rsvp" || location.hash === "#rspv") {
+    window.__pendingSection = "rsvp";
+  }
+
+  window.__scrollToDeepLink = function () {
+    const id = window.__pendingSection || sectionFromPath();
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    setTimeout(function () {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+  };
+})();
 
 /* —— Gate / elegant envelope —— */
 (function () {
@@ -51,6 +88,9 @@ const CONFIG = {
     document.body.classList.add("opened");
     setTimeout(function () {
       if (gate.parentNode) gate.remove();
+      if (typeof window.__scrollToDeepLink === "function") {
+        window.__scrollToDeepLink();
+      }
     }, 1400);
   }
 
@@ -84,6 +124,14 @@ const CONFIG = {
         setMusicUI(false);
       }
     });
+  }
+
+  // Deep links like /rsvp skip the envelope and jump to the section
+  const deepSection = window.__pendingSection;
+  if (deepSection) {
+    opening = true;
+    openBtn.disabled = true;
+    finish();
   }
 })();
 
