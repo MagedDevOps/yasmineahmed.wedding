@@ -4,4 +4,5 @@ Thumbs.db
 .vercel
 .env
 .env.*
+!.env.example
 node_modules/

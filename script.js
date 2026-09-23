@@ -226,18 +226,19 @@ const CONFIG = {
   });
 })();
 
-/* —— Wish / RSVP form (local demo) —— */
+/* —— Wish / RSVP form —— */
 (function () {
   const form = document.getElementById("wishForm");
   const status = document.getElementById("wishStatus");
   if (!form || !status) return;
 
-  form.addEventListener("submit", function (e) {
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const name = form.wishName.value.trim();
     const message = form.wishMessage.value.trim();
     const attend = form.attend.value;
+    const submitBtn = form.querySelector('button[type="submit"]');
 
     if (!name || !message) {
       status.textContent = "Please share your name and a short message.";
@@ -245,17 +246,21 @@ const CONFIG = {
     }
 
     status.textContent = "Sending your wish…";
+    if (submitBtn) submitBtn.disabled = true;
 
-    // Demo persistence — swap for your API endpoint when ready
     try {
-      const wishes = JSON.parse(localStorage.getItem("wedding-wishes") || "[]");
-      wishes.push({
-        name: name,
-        message: message,
-        attend: attend,
-        at: new Date().toISOString(),
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name, message: message, attend: attend }),
       });
-      localStorage.setItem("wedding-wishes", JSON.stringify(wishes));
+      const data = await res.json().catch(function () {
+        return {};
+      });
+
+      if (!res.ok) {
+        throw new Error(data.error || "Could not send your wish.");
+      }
 
       form.reset();
       form.querySelector('input[name="attend"][value="yes"]').checked = true;
@@ -264,7 +269,9 @@ const CONFIG = {
           ? "Thank you — we can’t wait to celebrate with you."
           : "Thank you for your love — we’ll feel it from afar.";
     } catch (err) {
-      status.textContent = "Something went wrong. Please try again.";
+      status.textContent = err.message || "Something went wrong. Please try again.";
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
     }
   });
 })();
