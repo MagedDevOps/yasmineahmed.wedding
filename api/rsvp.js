@@ -1,52 +1,34 @@
-const RSVP_KEY = "wedding:rsvps";
-
 function cors(res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Dashboard-Password");
 }
 
-function redisConfigured() {
-  return Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+function scriptConfigured() {
+  return Boolean(process.env.GOOGLE_SCRIPT_URL);
 }
 
-async function redisCommand(command) {
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+async function callScript(payload) {
+  const url = process.env.GOOGLE_SCRIPT_URL;
   const response = await fetch(url, {
     method: "POST",
-    headers: {
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(command),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    redirect: "follow",
   });
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error("Redis error: " + text);
+
+  const text = await response.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (e) {
+    throw new Error("Google Script returned invalid JSON. Redeploy the web app and check the URL.");
   }
-  return response.json();
-}
 
-async function listRsvps() {
-  const result = await redisCommand(["LRANGE", RSVP_KEY, 0, -1]);
-  const rows = Array.isArray(result.result) ? result.result : [];
-  return rows
-    .map(function (row) {
-      try {
-        return JSON.parse(row);
-      } catch (e) {
-        return null;
-      }
-    })
-    .filter(Boolean)
-    .sort(function (a, b) {
-      return String(b.at || "").localeCompare(String(a.at || ""));
-    });
-}
-
-async function addRsvp(entry) {
-  await redisCommand(["LPUSH", RSVP_KEY, JSON.stringify(entry)]);
+  if (!response.ok || data.error) {
+    throw new Error(data.error || "Google Script request failed");
+  }
+  return data;
 }
 
 function readBody(req) {
@@ -82,13 +64,13 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  if (!redisConfigured()) {
+  if (!scriptConfigured()) {
     res.statusCode = 503;
     res.setHeader("Content-Type", "application/json");
     res.end(
       JSON.stringify({
         error:
-          "RSVP storage is not configured. Add UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN, and DASHBOARD_PASSWORD in Vercel env vars.",
+          "RSVP storage is not configured. Add GOOGLE_SCRIPT_URL and DASHBOARD_PASSWORD in Vercel env vars (free Google Sheet).",
       })
     );
     return;
@@ -108,18 +90,16 @@ module.exports = async function handler(req, res) {
         return;
       }
 
-      const entry = {
-        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+      const data = await callScript({
+        action: "create",
         name: name,
         message: message,
         attend: attend,
-        at: new Date().toISOString(),
-      };
+      });
 
-      await addRsvp(entry);
       res.statusCode = 201;
       res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ ok: true, entry: entry }));
+      res.end(JSON.stringify({ ok: true, entry: data.entry }));
       return;
     }
 
@@ -133,11 +113,11 @@ module.exports = async function handler(req, res) {
         return;
       }
 
-      const entries = await listRsvps();
+      const data = await callScript({ action: "list" });
       res.statusCode = 200;
       res.setHeader("Content-Type", "application/json");
       res.setHeader("Cache-Control", "no-store");
-      res.end(JSON.stringify({ entries: entries }));
+      res.end(JSON.stringify({ entries: data.entries || [] }));
       return;
     }
 
