@@ -2,6 +2,9 @@
 const CONFIG = {
   weddingDate: "2026-10-08T21:00:00+03:00",
   couple: "Yasmine & Ahmed",
+  // Paste your Google Form link here (Send → </> Embed → copy src, or use the share link)
+  // Example: "https://docs.google.com/forms/d/e/XXXX/viewform?embedded=true"
+  googleFormUrl: "",
 };
 
 /* —— Clean routes (/rsvp, /venue, …) —— */
@@ -226,54 +229,32 @@ const CONFIG = {
   });
 })();
 
-/* —— Wish / RSVP form —— */
+/* —— RSVP via Google Form (replies go to your Google Sheet) —— */
 (function () {
-  const form = document.getElementById("wishForm");
-  const status = document.getElementById("wishStatus");
-  if (!form || !status) return;
+  const formUrl = (CONFIG.googleFormUrl || "").trim();
+  const frame = document.getElementById("googleFormFrame");
+  const link = document.getElementById("googleFormLink");
+  const embed = document.getElementById("rsvpEmbed");
+  const legacyForm = document.getElementById("wishForm");
 
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const name = form.wishName.value.trim();
-    const message = form.wishMessage.value.trim();
-    const attend = form.attend.value;
-    const submitBtn = form.querySelector('button[type="submit"]');
-
-    if (!name || !message) {
-      status.textContent = "Please share your name and a short message.";
-      return;
+  if (!formUrl) {
+    if (embed) {
+      embed.innerHTML =
+        '<p class="rsvp-setup">RSVP form will appear here once the Google Form link is added.</p>';
     }
+    if (legacyForm) legacyForm.hidden = true;
+    return;
+  }
 
-    status.textContent = "Sending your wish…";
-    if (submitBtn) submitBtn.disabled = true;
+  const embedUrl = formUrl.includes("embedded=true")
+    ? formUrl
+    : formUrl.replace(/\/viewform.*/, "/viewform?embedded=true");
 
-    try {
-      const res = await fetch("/api/rsvp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name, message: message, attend: attend }),
-      });
-      const data = await res.json().catch(function () {
-        return {};
-      });
-
-      if (!res.ok) {
-        throw new Error(data.error || "Could not send your wish.");
-      }
-
-      form.reset();
-      form.querySelector('input[name="attend"][value="yes"]').checked = true;
-      status.textContent =
-        attend === "yes"
-          ? "Thank you — we can’t wait to celebrate with you."
-          : "Thank you for your love — we’ll feel it from afar.";
-    } catch (err) {
-      status.textContent = err.message || "Something went wrong. Please try again.";
-    } finally {
-      if (submitBtn) submitBtn.disabled = false;
-    }
-  });
+  if (frame) frame.src = embedUrl;
+  if (link) {
+    link.href = formUrl.replace("?embedded=true", "").replace("&embedded=true", "");
+  }
+  if (legacyForm) legacyForm.hidden = true;
 })();
 
 /* —— Smooth scroll for same-page anchors (nav already uses href) —— */

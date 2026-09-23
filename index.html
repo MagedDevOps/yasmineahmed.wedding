@@ -384,7 +384,21 @@
           Your presence is the greatest gift. Leave a wish for Yasmine &amp; Ahmed
           in English or Arabic — it means the world to us.
         </p>
-        <form class="wish inview" id="wishForm">
+
+        <!-- Google Form embed: paste your form's "embed" src below after creating the form -->
+        <div class="rsvp-embed inview" id="rsvpEmbed">
+          <iframe
+            id="googleFormFrame"
+            title="RSVP form"
+            src="about:blank"
+            loading="lazy"
+          ></iframe>
+          <p class="rsvp-embed__fallback">
+            <a id="googleFormLink" class="btn btn--light" href="#" target="_blank" rel="noreferrer">Open RSVP form</a>
+          </p>
+        </div>
+
+        <form class="wish inview" id="wishForm" hidden>
           <label class="sr-only" for="wishName">Your name</label>
           <input id="wishName" name="name" type="text" maxlength="80" placeholder="Your name / اسمك" required />
           <label class="sr-only" for="wishMessage">Your message</label>
