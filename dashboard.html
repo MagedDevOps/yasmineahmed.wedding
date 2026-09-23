@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="theme-color" content="#1A3B65" />
-  <title>RSVP Sheet · Yasmine &amp; Ahmed</title>
+  <title>RSVP Dashboard · Yasmine &amp; Ahmed</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -15,16 +15,61 @@
   <div class="dash-shell">
     <section id="loginView" class="dash-login">
       <p class="dash-kicker">Private access</p>
-      <h1>RSVP list</h1>
-      <p class="dash-sub">Enter your password to open the Google Sheet with every guest reply.</p>
+      <h1>RSVP Dashboard</h1>
+      <p class="dash-sub">Enter the password to view guest replies in real time.</p>
       <form id="loginForm" class="dash-login__form">
         <label class="sr-only" for="password">Password</label>
         <input id="password" type="password" autocomplete="current-password" placeholder="Password" required />
-        <button type="submit">Open sheet</button>
+        <button type="submit">Enter</button>
         <p id="loginError" class="dash-error" hidden></p>
       </form>
     </section>
+
+    <section id="boardView" class="dash-board" hidden>
+      <header class="dash-head">
+        <div>
+          <p class="dash-kicker">Yasmine &amp; Ahmed</p>
+          <h1>Guest RSVPs</h1>
+        </div>
+        <div class="dash-head__actions">
+          <span id="liveBadge" class="dash-live">Live</span>
+          <button type="button" id="logoutBtn" class="dash-ghost">Lock</button>
+        </div>
+      </header>
+
+      <div class="dash-stats" id="stats">
+        <article>
+          <p class="dash-stats__label">Total</p>
+          <p class="dash-stats__value" data-stat="total">0</p>
+        </article>
+        <article>
+          <p class="dash-stats__label">Attending</p>
+          <p class="dash-stats__value" data-stat="yes">0</p>
+        </article>
+        <article>
+          <p class="dash-stats__label">Sending love</p>
+          <p class="dash-stats__value" data-stat="no">0</p>
+        </article>
+      </div>
+
+      <div class="dash-table-wrap">
+        <table class="dash-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Wish</th>
+              <th>When</th>
+            </tr>
+          </thead>
+          <tbody id="rsvpBody">
+            <tr class="dash-empty"><td colspan="4">Waiting for replies…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </div>
+
   <script src="dashboard.js"></script>
 </body>
 </html>
