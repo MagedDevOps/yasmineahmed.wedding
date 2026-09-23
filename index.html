@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#1A3B65" />
+  <title>Yasmine &amp; Ahmed · Wedding Invitation</title>
+  <meta name="description" content="You're invited to celebrate the wedding of Yasmine & Ahmed — 5 · October · 2026 at RIONA wedding hall, Madinet Dikirnis" />
+
+  <meta property="og:title" content="Yasmine & Ahmed · Wedding Invitation" />
+  <meta property="og:description" content="Join us Monday, 5 October 2026 at RIONA wedding hall, Madinet Dikirnis, Dekernes, Dakahlia" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="image/1.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Great+Vibes&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- OPEN GATE — embossed slate envelope -->
+  <div id="gate" class="gate" role="dialog" aria-label="Open invitation">
+    <div class="gate__atmosphere" aria-hidden="true">
+      <span class="gate__orb gate__orb--a"></span>
+      <span class="gate__orb gate__orb--b"></span>
+      <span class="gate__dust"></span>
+    </div>
+
+    <div class="envelope" id="envelope">
+      <p class="envelope__whisper">An invitation awaits</p>
+
+      <div class="envelope__stage">
+        <div class="envelope__shadow" aria-hidden="true"></div>
+
+        <article class="envelope__letter" aria-hidden="true">
+          <div class="gate__card">
+            <div class="gate__content">
+              <div class="rule" aria-hidden="true">
+                <img src="image/break-line.png" alt="" />
+              </div>
+              <p class="gate__eyebrow">Cordially invites</p>
+              <div class="gate__frame-wrap">
+                <img class="invite-frame" src="image/frame-names.png" alt="" />
+                <p class="gate__names">
+                  <span class="gate__name">Yasmine</span>
+                  <span class="gate__amp">&amp;</span>
+                  <span class="gate__name">Ahmed</span>
+                </p>
+              </div>
+              <p class="gate__date">5 · October · 2026</p>
+            </div>
+          </div>
+        </article>
+
+        <div class="envelope__shell">
+          <div class="envelope__back" aria-hidden="true"></div>
+
+          <div class="envelope__gate envelope__gate--left" aria-hidden="true">
+            <div class="envelope__gate-face"></div>
+          </div>
+          <div class="envelope__gate envelope__gate--right" aria-hidden="true">
+            <div class="envelope__gate-face"></div>
+          </div>
+
+          <button type="button" id="openInvite" class="envelope__seal" aria-label="Open invitation">
+            <span class="envelope__seal-ring" aria-hidden="true"></span>
+            <span class="envelope__seal-inner">
+              <span class="envelope__seal-mark">Open</span>
+              <span class="envelope__seal-ar">افتح</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <p class="envelope__hint">Touch to open</p>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a class="nav__brand" href="#home">Y <span>&amp;</span> A</a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#story">Story</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#countdown">When</a>
+      <a href="#journey">Journey</a>
+      <a href="#venue">Venue</a>
+      <a href="#rsvp">RSVP</a>
+    </nav>
+    <button type="button" class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
+  <div class="nav-drawer" id="drawer" hidden>
+    <a href="#story">Story</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#countdown">When</a>
+    <a href="#journey">Journey</a>
+    <a href="#venue">Venue</a>
+    <a href="#rsvp">RSVP</a>
+  </div>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero__media" aria-hidden="true">
+        <div class="hero__wash"></div>
+        <div class="hero__florals"></div>
+        <div class="hero__glow hero__glow--a"></div>
+        <div class="hero__glow hero__glow--b"></div>
+        <div class="hero__glow hero__glow--c"></div>
+        <div class="hero__veil"></div>
+        <div class="hero__grain"></div>
+      </div>
+      <div class="hero__copy">
+        <p class="hero__kicker reveal" style="--d:.2s">Together with their families</p>
+        <h1 class="hero__title reveal" style="--d:.45s">
+          <span class="hero__name">Yasmine</span>
+          <span class="hero__amp">&amp;</span>
+          <span class="hero__name">Ahmed</span>
+        </h1>
+        <p class="hero__line reveal" style="--d:.75s">are getting married</p>
+        <p class="hero__date reveal" style="--d:1s">5 · October · 2026</p>
+        <div class="hero__cta reveal" style="--d:1.25s">
+          <a class="btn btn--light" href="#rsvp">RSVP</a>
+          <a class="btn btn--ghost" href="#venue">Find Us</a>
+        </div>
+      </div>
+      <div class="hero__scroll" aria-hidden="true">
+        <span>Scroll</span>
+        <i></i>
+      </div>
+    </section>
+
+    <!-- STORY / WELCOME -->
+    <section class="section story" id="story">
+      <div class="ornament" aria-hidden="true"></div>
+      <div class="container narrow center">
+        <p class="eyebrow rose inview">A note from us</p>
+        <p class="ayah inview" lang="ar" dir="rtl">
+          وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا
+          وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+        </p>
+        <p class="welcome inview">
+          With full hearts, we invite you to share an evening where two families become one —
+          soft lights, warm laughter, and a love we’re ready to celebrate with you.
+        </p>
+        <div class="rule" aria-hidden="true">
+          <img src="image/break-line.png" alt="" />
+        </div>
+        <div class="names-block inview">
+          <div class="names-frame">
+            <img class="invite-frame" src="image/frame-names.png" alt="" />
+            <div class="names-frame__text">
+              <span class="script">Yasmine</span>
+              <span class="amp-script">&amp;</span>
+              <span class="script">Ahmed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTO GALLERY -->
+    <section class="section section--pearl gallery" id="gallery">
+      <div class="container">
+        <div class="section-head inview">
+          <div class="rule" aria-hidden="true">
+            <img src="image/break-line.png" alt="" />
+          </div>
+          <p class="eyebrow rose">Memories</p>
+          <h2 class="h2">Photo Gallery</h2>
+        </div>
+        <div class="gallery__grid inview">
+          <figure class="gallery__item">
+            <img src="image/gallery-2.jpg" alt="Childhood portrait" width="600" height="800" loading="lazy" />
+          </figure>
+          <figure class="gallery__item">
+            <img src="image/gallery-1.jpg" alt="Childhood portrait" width="600" height="800" loading="lazy" />
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- COUNTDOWN + CALENDAR -->
+    <section class="section section--blush save-date" id="countdown">
+      <div class="container narrow">
+        <div class="date-banner inview">
+          <p class="date-banner__row">
+            <span>Monday</span>
+            <i aria-hidden="true"></i>
+            <strong>05</strong>
+            <i aria-hidden="true"></i>
+            <span>October</span>
+          </p>
+          <p class="date-banner__year">2026</p>
+        </div>
+
+        <div class="countdown-block inview">
+          <p class="countdown-block__label">Countdown</p>
+          <div class="countdown countdown--inline" id="countdownGrid" aria-live="polite">
+            <div class="cd">
+              <span class="cd__num" data-k="days">00</span>
+              <span class="cd__label">Days</span>
+            </div>
+            <div class="cd">
+              <span class="cd__num" data-k="hours">00</span>
+              <span class="cd__label">Hours</span>
+            </div>
+            <div class="cd">
+              <span class="cd__num" data-k="minutes">00</span>
+              <span class="cd__label">Min</span>
+            </div>
+            <div class="cd">
+              <span class="cd__num" data-k="seconds">00</span>
+              <span class="cd__label">Sec</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cal inview" aria-label="October 2026 calendar">
+          <span class="cal__corner cal__corner--tl" aria-hidden="true"></span>
+          <span class="cal__corner cal__corner--tr" aria-hidden="true"></span>
+          <span class="cal__corner cal__corner--bl" aria-hidden="true"></span>
+          <span class="cal__corner cal__corner--br" aria-hidden="true"></span>
+
+          <p class="cal__month">October 2026</p>
+          <div class="cal__weekdays" aria-hidden="true">
+            <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+          </div>
+          <div class="cal__grid">
+            <span class="cal__empty"></span>
+            <span class="cal__empty"></span>
+            <span class="cal__empty"></span>
+            <span>1</span><span>2</span><span>3</span><span>4</span>
+            <span class="cal__heart" aria-label="Wedding day, 5 October"><span>5</span></span>
+            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span>
+            <span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span>
+            <span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span>
+            <span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
+          </div>
+        </div>
+
+        <div class="center inview" style="margin-top: 2.25rem;">
+          <a
+            class="btn btn--solid"
+            href="https://calendar.google.com/event?action=TEMPLATE&text=Yasmine+%26+Ahmed+Wedding&dates=20261005T190000Z/20261005T220000Z&details=Yasmine+%26+Ahmed+Wedding+Celebration&location=RIONA+wedding+hall%2C+Madinet+Dikirnis%2C+Dekernes%2C+Dakahlia+Governorate"
+            target="_blank"
+            rel="noreferrer"
+          >Add to Calendar</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- DATE / TIME -->
+    <section class="section section--deep" id="when">
+      <div class="container">
+        <div class="section-head inview light">
+          <p class="eyebrow gold">Save the date</p>
+          <h2 class="h2 light">The evening</h2>
+        </div>
+        <div class="when-grid">
+          <div class="when-cell inview">
+            <p class="when-label">Day</p>
+            <p class="when-day">Monday</p>
+            <p class="when-num">5</p>
+            <p class="when-month">October 2026</p>
+          </div>
+          <div class="when-cell inview">
+            <p class="when-label">Ceremony</p>
+            <p class="when-big">9:00 PM</p>
+            <p class="when-note">Please be seated by 8:45</p>
+          </div>
+          <div class="when-cell inview">
+            <p class="when-label">Celebration</p>
+            <p class="when-big">From 9:00</p>
+            <p class="when-note">Dinner, dancing &amp; delight</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JOURNEY / TIMELINE -->
+    <section class="section" id="journey">
+      <div class="container">
+        <div class="section-head inview">
+          <p class="eyebrow rose">Order of the evening</p>
+          <h2 class="h2">Our journey</h2>
+        </div>
+        <div class="timeline">
+          <div class="t-line" aria-hidden="true"></div>
+          <article class="t-item left inview">
+            <div class="t-node">✦</div>
+            <div class="t-body">
+              <p class="t-time">8:00 PM</p>
+              <h3>Welcome &amp; golden hour</h3>
+              <p>Arrive, greet loved ones, and settle into the soft glow of the evening.</p>
+            </div>
+          </article>
+          <article class="t-item right inview">
+            <div class="t-node">♡</div>
+            <div class="t-body">
+              <p class="t-time">9:00 PM</p>
+              <h3>Ceremony</h3>
+              <p>Two hearts, one vow — the moment we’ve waited for.</p>
+            </div>
+          </article>
+          <article class="t-item left inview">
+            <div class="t-node">♪</div>
+            <div class="t-body">
+              <p class="t-time">9:30 PM</p>
+              <h3>Dinner &amp; dance</h3>
+              <p>Celebrate with us until the stars take over the sky.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- VENUE -->
+    <section class="section section--blush" id="venue">
+      <div class="container">
+        <div class="section-head inview">
+          <p class="eyebrow rose">Where it happens</p>
+          <h2 class="h2">The venue</h2>
+        </div>
+        <div class="venue inview">
+          <img
+            src="image/1.jpg"
+            alt="RIONA wedding hall"
+          />
+          <div class="venue__overlay">
+            <p class="eyebrow gold">The Venue</p>
+            <h3>RIONA wedding hall</h3>
+            <p>Madinet Dikirnis · Dekernes, Dakahlia</p>
+          </div>
+        </div>
+        <div class="map-wrap inview">
+          <iframe
+            title="RIONA wedding hall map"
+            src="https://www.google.com/maps?q=RIONA+wedding+hall+Madinet+Dikirnis+Dekernes+Dakahlia+Governorate&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+        <div class="center inview" style="margin-top: 1.75rem;">
+          <a class="btn btn--solid" href="https://maps.app.goo.gl/pgKueEjEgBjz8XXs9" target="_blank" rel="noreferrer">
+            Open in Maps
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section class="section section--pearl" id="notes">
+      <div class="container">
+        <div class="section-head inview">
+          <p class="eyebrow rose">A few kind notes</p>
+          <h2 class="h2">Details</h2>
+        </div>
+        <div class="notes-grid">
+          <div class="note inview">
+            <p class="eyebrow rose">Attire</p>
+            <h3>Dress code</h3>
+            <p>Wear whatever makes you comfortable — soft neutrals or dusty blues are welcome, for example.</p>
+          </div>
+          <div class="note inview">
+            <p class="eyebrow rose">Arrival</p>
+            <h3>Doors &amp; parking</h3>
+            <p>Doors open at 8:00 PM. Parking is available at RIONA. Come early for the group photo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP -->
+    <section class="section section--deep" id="rsvp">
+      <div class="container narrow">
+        <div class="section-head inview light">
+          <p class="eyebrow gold">We hope you’ll join us</p>
+          <h2 class="h2 light">RSVP &amp; wishes</h2>
+        </div>
+        <p class="rsvp-lead inview">
+          Your presence is the greatest gift. Leave a wish for Yasmine &amp; Ahmed
+          in English or Arabic — it means the world to us.
+        </p>
+        <form class="wish inview" id="wishForm">
+          <label class="sr-only" for="wishName">Your name</label>
+          <input id="wishName" name="name" type="text" maxlength="80" placeholder="Your name / اسمك" required />
+          <label class="sr-only" for="wishMessage">Your message</label>
+          <textarea id="wishMessage" name="message" maxlength="500" placeholder="Write your wish… اكتب تمنياتك…" required></textarea>
+          <fieldset class="attend">
+            <legend class="sr-only">Will you attend?</legend>
+            <label><input type="radio" name="attend" value="yes" checked /> Joyfully attending</label>
+            <label><input type="radio" name="attend" value="no" /> Sending love from afar</label>
+          </fieldset>
+          <button type="submit" class="btn btn--light btn--wide">Send Wish</button>
+          <p class="wish-status" id="wishStatus" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__mono">Y <span>&amp;</span> A</p>
+    <p class="footer__date">5 · October · 2026 · From 9:00 PM</p>
+    <p class="footer__place">RIONA wedding hall · Dekernes, Dakahlia</p>
+    <p class="footer__hearts" aria-hidden="true">✦ ♡ ✦</p>
+  </footer>
+
+  <audio id="bgMusic" src="music/omKulthum.mp3" loop preload="auto" playsinline></audio>
+
+  <button type="button" id="musicToggle" class="music" aria-label="Mute music" hidden>
+    <svg class="music__icon music__icon--on" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+    </svg>
+    <svg class="music__icon music__icon--off" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" hidden>
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <line x1="23" y1="9" x2="17" y2="15"></line>
+      <line x1="17" y1="9" x2="23" y2="15"></line>
+    </svg>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
