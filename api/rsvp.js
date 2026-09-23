@@ -153,7 +153,13 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === "GET") {
-      var password = req.headers["x-dashboard-password"] || "";
+      var passwordHeader = req.headers["x-dashboard-password"] || "";
+      var password = passwordHeader;
+      try {
+        password = decodeURIComponent(passwordHeader);
+      } catch (e) {
+        password = passwordHeader;
+      }
       var expected = process.env.DASHBOARD_PASSWORD || "";
       if (!expected || password !== expected) {
         res.statusCode = 401;

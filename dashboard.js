@@ -74,7 +74,10 @@
 
   async function fetchRsvps() {
     const res = await fetch("/api/rsvp", {
-      headers: { "X-Dashboard-Password": password },
+      headers: {
+        // encodeURIComponent keeps header ASCII-safe (Arabic passwords, etc.)
+        "X-Dashboard-Password": encodeURIComponent(password),
+      },
       cache: "no-store",
     });
 
